@@ -1,0 +1,55 @@
+<h1>Customers</h1>
+
+<form id="new-customer-form">
+  <div class="row">
+    <div class="col-xs-3">
+      <label for="first-name">First Name:</label>
+    </div>
+
+    <div class="col-xs-3">
+      <label for="last-name">Last Name:</label>
+    </div>
+
+    <div class="col-xs-3">
+      <label for="city">City:</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-3">
+      <input type="text" data-ng-model="newCustomer.firstName" id="first-name"
+      placeholder="First Name" class="form-control" />
+    </div>
+
+    <div class="col-xs-3">
+      <input type="text" data-ng-model="newCustomer.lastName" id="last-name"
+      placeholder="Last Name" class="form-control" />
+    </div>
+
+    <div class="col-xs-3">
+      <input type="text" data-ng-model="newCustomer.city" id="city"
+      placeholder="City" class="form-control" />
+    </div>
+
+    <div class="col-xs-3">
+      <button class="btn btn-primary" data-ng-click="addCustomer(newCustomer)">
+        Add Customer
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="row">
+  <div class="col-xs-3 customer-box"
+  data-ng-repeat="customer in customers | orderBy:'lastName'">
+    <div class="cust-name-box">
+      {{ customer.firstName }} {{ customer.lastName }}
+    </div>
+    <div class="cust-info-box">
+      {{ customer.city }}<br />
+      <a data-ui-sref="customerDetail({ customerId: customer.id })">
+        View {{ !!customer.orders ? customer.orders.length : 0 }} Orders
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+#content {
+  margin-top: 70px;
+  margin-bottom: 70px;
+}
+
+.footer div {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.customer-box {
+  border: 1px solid black;
+  margin: 10px;
+  padding: 0;
+  width: 200px;
+}
+
+.cust-name-box {
+  color: white;
+  background-color: #337ab7;
+  font-size: 14pt;
+}
+
+.cust-info-box {
+  background-color: LightGray;
+}
+
+th {
+  color: white;
+  background-color: #337ab7;
+}
+
+tr.grand-total {
+  background-color: rgba(173,216,230,0.7);  /* LightBlue */
+  font-weight: bold;
+}

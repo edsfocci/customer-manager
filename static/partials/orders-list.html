@@ -1,0 +1,22 @@
+<h1>All Customer Orders</h1>
+
+<div data-ng-repeat="customer in customers | orderBy:'lastName'">
+  <h2><a data-ui-sref="customerDetail({ customerId: customer.id })">
+    {{ customer.firstName }} {{customer.lastName }}
+  </a></h2>
+
+  <table class="table table-bordered">
+    <tr><th>Product</th><th>Quantity</th><th>Unit Price</th><th>Total</th></tr>
+
+    <tr data-ng-repeat="order in customer.orders">
+      <td>{{ order.product }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>${{ order.price }}</td>
+      <td>${{ order.orderTotal }}</td>
+    </tr>
+
+    <tr class="grand-total">
+      <td colspan="3"></td><td>${{ getGrandTotal(customer.orders) }}</td>
+    </tr>
+  </table>
+</div>
