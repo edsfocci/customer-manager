@@ -27,6 +27,12 @@ var app = angular.module("paymentsApp", ['ui.router'])
     });
 }])
 
+.directive('appStylesheets', function(){
+  return {
+    templateUrl: 'partials/stylesheets.html'
+  }
+})
+
 .directive('appTopNav', function() {
   return {
     templateUrl: 'partials/top-nav.html'

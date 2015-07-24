@@ -47,7 +47,8 @@
     </div>
     <div class="cust-info-box">
       {{ customer.city }}<br />
-      <a data-ui-sref="customerDetail({ customerId: customer.id })">
+      <!--a data-ui-sref="customerDetail({ customerId: customer.id })"-->
+      <a data-ng-href="#/customers/{{ customer.id }}">
         View {{ !!customer.orders ? customer.orders.length : 0 }} Orders
       </a>
     </div>

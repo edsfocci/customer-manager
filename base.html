@@ -5,28 +5,30 @@ data-ng-app="paymentsApp">
   <meta charset="UTF-8" />
   <title>Customer Manager</title>
   <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" type="text/javascript"></script>
   <![endif]-->
-  <!-- S T Y L E S H E E T S -->
-  <!-- Bootstrap core CSS -->
-  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- App-specifit CSS -->
-  <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
+  <div data-app-stylesheets=""></div>
+
   <div data-app-top-nav=""></div>
 
-  <div data-ui-view="" id="content" class="container"></div>
+  <!--div data-ui-view="" id="content" class="container"></div-->
+  <div data-ng-view="" id="content" class="container"></div>
 
   <div data-app-footer=""></div>
 
   <!-- S C R I P T S -->
   <!-- Angular core JS -->
-  <script src="angularjs/angular.min.js"></script>
+  <script src="angularjs/angular.min.js" type="text/javascript"></script>
   <!-- Angular UI Router JS -->
-  <script src="angularjs/angular-ui-router.min.js"></script>
+  <!--script src="angularjs/angular-ui-router.min.js"></script-->
+  <!-- Angular ngRoute JS -->
+  <script src="angularjs/angular-route.min.js" type="text/javascript"></script>
+  <!-- Angular-route-styles JS -->
+  <script src="angularjs/route-styles.js" type="text/javascript"></script>
   <!-- App-specific JS -->
-  <script src="app.js"></script>
+  <script src="app-ng-router.js" type="text/javascript"></script>
 </body>
 </html>

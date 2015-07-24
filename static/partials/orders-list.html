@@ -1,7 +1,8 @@
 <h1>All Customer Orders</h1>
 
 <div data-ng-repeat="customer in customers | orderBy:'lastName'">
-  <h2><a data-ui-sref="customerDetail({ customerId: customer.id })">
+  <!--h2><a data-ui-sref="customerDetail({ customerId: customer.id })"-->
+  <h2><a data-ng-href="#/customers/{{ customer.id }}">
     {{ customer.firstName }} {{customer.lastName }}
   </a></h2>
 
