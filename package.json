@@ -1,7 +1,14 @@
 {
   "name": "customer-manager",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.13.1"
+  },
+  "engines": {
+    "node": "0.10.40",
+    "npm": "2.14.5"
   }
 }
