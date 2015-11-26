@@ -29,40 +29,101 @@ var app = angular.module("paymentsApp", ['ngRoute', 'routeStyles'])
 .directive('appTopNav', function() {
   return {
     templateUrl: 'partials/top-nav.html'
-  }
+  };
 })
 
 .directive('appFooter', function() {
   return {
     templateUrl: 'partials/footer.html'
-  }
+  };
 })
 
-.service('customersSrvc', ['$http', '$q', function($http, $q) {
-  this.getCustomersList = function() {
+.service('customersSrvc', ['$http', '$q', '$window',
+function($http, $q, $window) {
+  var ajaxCustomers = function() {
     var deferred = $q.defer();
 
     $http.get('customers.json')
     .success(function(data) {
-      deferred.resolve(angular.fromJson(data));
+      $window.customers = data;
+      deferred.resolve(data);
     });
 
     return deferred.promise;
-  }
-
-  this.addCustomer = function(newCustomer) {
-    //TODO: add newCustomer to customerStore, and return customerStore
-
-    return newCustomer;
   };
 
-  this.getCustomer = function() {
+  this.getCustomersList = function() {
+    var customersPromise;
+
+    if ($window.customers === undefined) {
+      customersPromise = ajaxCustomers();
+
+    } else {
+      var deferred = $q.defer();
+
+      setTimeout(function() {
+        deferred.resolve($window.customers);
+      }, 0);
+
+      customersPromise = deferred.promise;
+    }
+
+    return customersPromise;
+  };
+
+  this.addCustomer = function(newCustomer) {
     var deferred = $q.defer();
 
-    $http.get('customers.json')
-    .success(function(data) {
-      deferred.resolve(angular.fromJson(data));
-    });
+    setTimeout(function() {
+      // Validation
+      newCustomer = newCustomer || {};
+
+      newCustomer.firstName = newCustomer.firstName || "";
+      newCustomer.firstName = newCustomer.firstName.trim();
+
+      newCustomer.lastName = newCustomer.lastName || "";
+      newCustomer.lastName = newCustomer.lastName.trim();
+
+      newCustomer.city = newCustomer.city || "";
+      newCustomer.city = newCustomer.city.trim();
+
+      if (!newCustomer.firstName || !newCustomer.lastName || !newCustomer.city)
+        return deferred.reject();
+
+      newCustomer.id = $window.customers[$window.customers.length-1].id + 1;
+
+      deferred.resolve(newCustomer);
+    }, 0);
+
+    return deferred.promise;
+  };
+
+  this.getCustomer = function(id) {
+    var customer;
+    var deferred = $q.defer();
+
+    if ($window.customers === undefined) {
+      setTimeout(function() {
+        var customersPromise = ajaxCustomers();
+
+        customersPromise
+        .then(function(data) {
+          customer = data.filter(function(customer) {
+            return customer.id == id;
+          });
+
+          deferred.resolve(customer[0]);
+        });
+      }, 0);
+
+    } else {
+      setTimeout(function() {
+        customer = $window.customers.filter(function(customer) {
+          return customer.id == id;
+        });
+        deferred.resolve(customer[0]);
+      }, 0);
+    }
 
     return deferred.promise;
   };
@@ -103,22 +164,23 @@ var app = angular.module("paymentsApp", ['ngRoute', 'routeStyles'])
     });
 
     $scope.addCustomer = function(newCustomer) {
-      customersSrvc.addCustomer();
+      customersSrvc.addCustomer(newCustomer)
+      .then(function(data) {
+        $scope.customers.push(data);
 
-      $scope.customers.push(newCustomer);
+        $scope.newCustomer = {};
+      });
     };
 }])
 
 .controller('customersDetailCtrl', ['$scope', '$routeParams', 'customersSrvc',
   'ordersSrvc', function($scope, $routeParams, customersSrvc, ordersSrvc) {
-    customersSrvc.getCustomer()
+    customersSrvc.getCustomer($routeParams.customerId)
     .then(function(data) {
       // console.log($stateParams.customerId)
-      data = data.filter(function(customer) {
-        return customer.id == $routeParams.customerId;
-      });
+
       // console.log(data)
-      $scope.customer = data[0];
+      $scope.customer = data;
     });
 
     $scope.getGrandTotal = ordersSrvc.getGrandTotal;
